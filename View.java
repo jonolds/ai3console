@@ -5,45 +5,49 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.border.TitledBorder;
 import java.awt.SystemColor;
+import java.awt.ComponentOrientation;
 
 public class View extends JFrame implements ActionListener {
 	public static final int REPLAY_GRANULARITY = 30;
 	Controller controller;
-	MyPanel panel;
+	MainPanel panel;
 	
 	Model model;
 	Object secret_symbol; // used to limit access to methods that agents could potentially use to cheat
 	ArrayList<Controller> replayPoints;
 	int slomo;
 	int skipframes;
-
-	public View(Controller c, Model m, Object symbol) throws Exception {
-		setAlwaysOnTop(true);
-		this.controller = c;
-		this.model = m;
-		secret_symbol = symbol;
-		// Make the game window
+	
+	public View() {
+		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("AI Tournament");
 		this.setSize(1203, 836);
 		
-		this.setVisible(true);
-		this.replayPoints = new ArrayList<Controller>();
 		getContentPane().setLayout(null);
+		this.setVisible(true);
+	}
+
+	public View(Controller c, Model m, Object symbol) throws Exception {
+		this();
+		this.controller = c;
+		this.model = m;
+		secret_symbol = symbol;
+		// Make the game window
+
+		this.replayPoints = new ArrayList<Controller>();
 		
-		MyPanel panel = new MyPanel(this);
-		panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.addMouseListener(c);
-		panel.setBounds(0, 0, 1230, 610);
+		
+		MainPanel panel = new MainPanel();
+		panel.init(this.controller, this);
+
 		getContentPane().add(panel);
 		
-		Console console = new Console(this);
+		Console console = new Console();
+		console.init(this.model, this);
+		console.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		console.setBackground(SystemColor.inactiveCaption);
 		console.setBounds(0, 611, 1187, 212);
-		for(int i = 0; i < model.sprites_blue.size(); i++)
-			console.addAgentInfoBox(model.sprites_blue.get(i), "blue", i);
-		for(int i = 0; i < model.sprites_red.size(); i++)
-			console.addAgentInfoBox(model.sprites_red.get(i), "red", i);
 		getContentPane().add(console);
 	}
 	public void actionPerformed(ActionEvent evt) { repaint(); } // indirectly calls MyPanel.paintComponent

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.WindowEvent;
@@ -10,16 +11,26 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
-class MyPanel extends JPanel {
-
-	private final View view;
+class MainPanel extends JPanel {
+	Controller control;
+	View view;
 	public static final int FLAG_IMAGE_HEIGHT = 25;
 	Image image_robot_blue, image_robot_red, image_broken, image_flag_blue, image_flag_red;
 	MySoundClip sound_doing;
+	
+	public MainPanel() {
+		this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		this.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		this.setBounds(0, 0, 1230, 610);
+		this.setVisible(true);
+	}
 
-	MyPanel(View view) throws Exception {
+	void init(Controller c, View view) throws Exception {
+		this.control = c;
 		this.view = view;
+		this.addMouseListener(this.control);
 		this.image_robot_blue = ImageIO.read(new File("robot_blue.png"));
 		this.image_robot_red = ImageIO.read(new File("robot_red.png"));
 		this.image_broken = ImageIO.read(new File("broken.png"));
