@@ -25,8 +25,8 @@ class Model {
 	private Controller controller;
 	private Object secret_symbol; // used to limit access to methods that agents could potentially use to cheat
 	private byte[] terrain;
-	private ArrayList<Sprite> sprites_blue;
-	private ArrayList<Sprite> sprites_red;
+	public ArrayList<Sprite> sprites_blue;
+	public ArrayList<Sprite> sprites_red;
 	private ArrayList<Sprite> sprites_self;
 	private ArrayList<Sprite> sprites_opponent;
 	private ArrayList<Bomb> bombs_throwing;

@@ -14,7 +14,7 @@ class Controller implements MouseListener {
 	private IAgent redAgent;
 	LinkedList<MouseEvent> mouseEvents; // a queue of mouse events (used by the human agent)
 	int selectedSprite; // the blue agent to draw a box around (used by the human agent)
-	private static long agent_frame_time = 0;
+	private long agent_frame_time = 0;
 	private long blue_time_balance;
 	private long red_time_balance;
 	private long iter;
@@ -40,7 +40,7 @@ class Controller implements MouseListener {
 	Controller fork(IAgent myShadowAgent, IAgent opponentShadowAgent) {
 		amIblue = model.amIblue(secret_symbol);
 		Controller c = new Controller(secret_symbol, amIblue ? myShadowAgent : opponentShadowAgent, amIblue ? opponentShadowAgent : myShadowAgent);
-//		c.agent_frame_time = agent_frame_time;
+		c.agent_frame_time = agent_frame_time;
 		c.blue_time_balance = blue_time_balance;
 		c.red_time_balance = red_time_balance;
 		c.iter = iter;
@@ -127,6 +127,7 @@ class Controller implements MouseListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
+		System.out.println(e.getX() + "," + e.getY());
 		if(e.getY() < 600) {
 			mouseEvents.add(e);
 			if(mouseEvents.size() > 20) // discard events if the queue gets big

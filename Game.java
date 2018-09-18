@@ -29,8 +29,3 @@ class Game {
 		Controller.doBattle(new ReflexAgent(), new NeuralAgent(w));
 	}
 }
-
-interface IAgent {
-	void reset();
-	void update(Model m);
-}
